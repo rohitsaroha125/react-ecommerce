@@ -4,6 +4,8 @@ import { Route, Link } from 'react-router-dom'
 
 import Homepage from './pages/homepage/homepage.component'
 import Shopepage from './pages/shop/shop.component.jsx'
+import SigninPage from './pages/signin/signin.component.jsx'
+import { auth } from './firebase/firebase.util'
 
 import Header from './components/header/header.component.jsx'
 
@@ -16,14 +18,44 @@ const HatsPage=() => {
   )
 }
 
-function App() {
-  return (
-    <div>
-    <Header></Header>
-      <Route exact path="/" component={Homepage} />
-      <Route exact path="/shop" component={Shopepage} />
-    </div>
-  );
+class App extends React.Component {
+
+  constructor()
+  {
+    super();
+
+    this.state={
+      currentUser: null
+    }
+  }
+
+  unsubscribe=null
+
+  componentDidMount()
+  {
+      this.unsubscribe=auth.onAuthStateChanged((user) => {
+        
+        this.setState({ currentUser: user })
+        console.log(user)
+      })
+  }
+
+  componentWillUnmount()
+  {
+    this.unsubscribe();
+  }
+
+  render()
+  {
+    return (
+      <div>
+      <Header currentUser={this.state.currentUser}></Header>
+        <Route exact path="/" component={Homepage} />
+        <Route exact path="/shop" component={Shopepage} />
+        <Route exact path="/signin" component={SigninPage}/>
+      </div>
+    );
+  }
 }
 
 export default App;

@@ -5,7 +5,7 @@ import { Route, Link } from 'react-router-dom'
 import Homepage from './pages/homepage/homepage.component'
 import Shopepage from './pages/shop/shop.component.jsx'
 import SigninPage from './pages/signin/signin.component.jsx'
-import { auth } from './firebase/firebase.util'
+import { auth, createuserDocument } from './firebase/firebase.util'
 
 import Header from './components/header/header.component.jsx'
 
@@ -33,10 +33,51 @@ class App extends React.Component {
 
   componentDidMount()
   {
-      this.unsubscribe=auth.onAuthStateChanged((user) => {
-        
-        this.setState({ currentUser: user })
-        console.log(user)
+    this.unsubscribe=auth.onAuthStateChanged(async (user) => {
+      if(user)
+      {
+        const userRef=await createuserDocument(user)
+        userRef.onSnapshot((snapshot) => {
+          this.setState({
+            currentUser:{
+              id:snapshot.id,
+              ...snapshot.data()
+            }
+          })
+        })
+      }
+      this.setState({currentUser:user})
+    })
+  }
+
+  componentWillUnmount()
+  {
+    this.unsubscribe();
+  }
+
+/*
+
+  unsubscribe=null
+
+  componentDidMount()
+  {
+      this.unsubscribe=auth.onAuthStateChanged(async (user) => {
+        if(user)
+        {
+          const userRef=await createuserDocument(user);
+
+          userRef.onSnapshot((snapshot) => {
+            this.setState({
+              currentUser:{
+                id: snapshot.id,
+                ...snapshot.data()
+              }
+            },() => {
+              console.log(this.state)
+            })
+          })
+        }
+        this.setState({currentUser: user})
       })
   }
 
@@ -44,6 +85,8 @@ class App extends React.Component {
   {
     this.unsubscribe();
   }
+
+*/
 
   render()
   {

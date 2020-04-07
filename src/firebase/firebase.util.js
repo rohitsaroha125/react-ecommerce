@@ -13,11 +13,65 @@ const config={
     measurementId: "G-9VJQFCPJY2"
   };
 
+  export const createuserDocument= async (userAuth,addData) => {
+    if(!userAuth) return;
+
+    const userRef=firestore.doc(`users/${userAuth.uid}`)
+    const snapShot=await userRef.get()
+
+    if(!snapShot.exists)
+    {
+      const displayName=addData
+      const {email}=userAuth
+      const createdAt=new Date();
+
+      try
+      {
+        userRef.set({displayName,email,createdAt})
+      }catch(error)
+      {
+        console.log(error)
+      }
+
+    }
+    return userRef
+  }
+
+
+/*
+
+  export const createuserDocument= async (userAuth,addData) => 
+  {
+    if(!userAuth) return;
+
+    const userRef=firestore.doc(`users/${userAuth.uid}`)
+    const snapShot=await userRef.get()
+    if(!snapShot.exists)
+    {
+      const {displayName}=addData
+      const {email}=userAuth
+      const createdAt=new Date();
+      
+      try{
+        userRef.set({displayName,email,createdAt})
+      }catch(error){
+        console.log(error);
+      }
+
+    }
+
+    return userRef
+
+  }
+
+*/
+ 
   firebase.initializeApp(config);
 
   const provider=new firebase.auth.GoogleAuthProvider()
 
   export const auth=firebase.auth()
+  export const firestore=firebase.firestore()
 
 export const Signingoogle=() => auth.signInWithPopup(provider);
 

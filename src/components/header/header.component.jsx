@@ -6,7 +6,11 @@ import { connect } from 'react-redux'
 
 import { ReactComponent as Logo } from '../../assets/crown.svg'
 
-const Header=({currentUser}) => {
+import ShoppingCart from '../cart-icon/cart-icon.component.jsx'
+import CartDropdown from '../cart-dropdown/cart-dropdown.component.jsx'
+
+const Header=({currentUser, hidden}) => {
+    console.log(hidden)
     return(
         <div className="header">
             <Link className="logo-container" to="/">
@@ -22,13 +26,18 @@ const Header=({currentUser}) => {
                         <Link className="option" to="/signin">SIGN IN</Link>
                     )
                 }
+                <ShoppingCart/>
             </div>
+            {
+                hidden ? console.log("hello") : (<CartDropdown />)
+            }
         </div>
     )
 }
 
 const maptoprops=state => ({
-    currentUser: state.user.currentUser
+    currentUser: state.user.currentUser,
+    hidden: state.cart.hidden
 })
 
 export default connect(maptoprops)(Header);

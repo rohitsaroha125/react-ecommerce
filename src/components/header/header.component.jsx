@@ -10,7 +10,6 @@ import ShoppingCart from '../cart-icon/cart-icon.component.jsx'
 import CartDropdown from '../cart-dropdown/cart-dropdown.component.jsx'
 
 const Header=({currentUser, hidden}) => {
-    console.log(hidden)
     return(
         <div className="header">
             <Link className="logo-container" to="/">

@@ -2,10 +2,10 @@ import React from 'react'
 
 import './customButton.style.scss'
 
-const CustomButton=({type, value,click, handleClick, isGoogle}) => {
+const CustomButton=({type, value,click, handleClick, isGoogle, inverted, item}) => {
         if(click)
         {
-            return(<button className={`${isGoogle ? 'google-sign-in':''} custom-button`} onClick={handleClick} type={type}>
+            return(<button className={`${inverted ? 'inverted':''} ${isGoogle ? 'google-sign-in':''} custom-button`} onClick={handleClick} type={type}>
             {value}
         </button>)
         }
@@ -16,5 +16,7 @@ const CustomButton=({type, value,click, handleClick, isGoogle}) => {
         </button>)
         }
 }
+
+
 
 export default CustomButton

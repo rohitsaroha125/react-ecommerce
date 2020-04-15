@@ -5,6 +5,8 @@ import { auth } from '../../firebase/firebase.util'
 import { connect } from 'react-redux'
 
 import { ReactComponent as Logo } from '../../assets/crown.svg'
+import { selectHidden } from '../../redux/cart/cart.selector.js'
+import { selectCurrentUser } from '../../redux/user/user.selector.js'
 
 import ShoppingCart from '../cart-icon/cart-icon.component.jsx'
 import CartDropdown from '../cart-dropdown/cart-dropdown.component.jsx'
@@ -35,8 +37,8 @@ const Header=({currentUser, hidden}) => {
 }
 
 const maptoprops=state => ({
-    currentUser: state.user.currentUser,
-    hidden: state.cart.hidden
+    currentUser: selectCurrentUser(state),
+    hidden: selectHidden(state)
 })
 
 export default connect(maptoprops)(Header);

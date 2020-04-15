@@ -6,8 +6,11 @@ import { connect } from 'react-redux'
 import Homepage from './pages/homepage/homepage.component'
 import Shopepage from './pages/shop/shop.component.jsx'
 import SigninPage from './pages/signin/signin.component.jsx'
+import CheckoutPage from './pages/checkout/checkout.component.jsx'
 import { auth, createuserDocument } from './firebase/firebase.util'
 import { setCurrentuser } from './redux/user/user.actions.js'
+
+import { selectCurrentUser } from './redux/user/user.selector.js'
 
 
 import Header from './components/header/header.component.jsx'
@@ -93,13 +96,14 @@ class App extends React.Component {
         <Route exact path="/" component={Homepage} />
         <Route exact path="/shop" component={Shopepage} />
         <Route exact path="/signin" render={ () => this.props.currentUser ? (<Redirect to="/" />) : (<SigninPage />) }/>
+        <Route exact path="/checkout" component={CheckoutPage} />
       </div>
     );
   }
 }
 
-const mapStateToProps=({user}) => ({
-  currentUser : user.currentUser
+const mapStateToProps=(state) => ({
+  currentUser : selectCurrentUser(state)
 })
 
 const mapDispatchtoProps=dispatch => ({

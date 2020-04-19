@@ -6,6 +6,8 @@ import { connect } from 'react-redux'
 import { selectCartItems, selectTotal } from '../../redux/cart/cart.selector.js'
 import CheckoutItem from '../../components/checkout-item/checkout-item.component'
 
+import PayStripe from '../../components/stripeButton/stripeButton.component'
+
 const CheckoutPage=({cartItems,total}) => (
     <div className="checkout-page">
         <div className="checkout-header">
@@ -33,6 +35,7 @@ const CheckoutPage=({cartItems,total}) => (
         <div className="total">
             <span>TOTAL : ${total}</span>
         </div>
+        <PayStripe price={total}/>
     </div>
 )
 

@@ -6,9 +6,10 @@ import ShopSections from '../../redux/shop/shop.selector'
 import { connect } from 'react-redux'
 
 const CollectionOverview=({collections}) => {
-    return(
-        collections.map(({ id,title,items }) => (
-            <CollectionPreview key={id} title={title} items={items}></CollectionPreview>
+    console.log(Object.entries(collections))
+    return( 
+        Object.entries(collections).map((collection) => (
+            <CollectionPreview key={collection[0]} title={collection[1].title} items={collection[1].items}></CollectionPreview>
         ))
     )
 }

@@ -75,5 +75,33 @@ const config={
 
 export const Signingoogle=() => auth.signInWithPopup(provider);
 
+export const addCollection=async (collectionKey, objectsToAdd) => {
+      const collectionRef=firestore.collection(collectionKey);
+
+      const batch=firestore.batch()
+      objectsToAdd.forEach(obj => {
+        const newDoc=collectionRef.doc(obj.title)
+        batch.set(newDoc, obj)
+      })
+      return await batch.commit()
+}
+
+export const convertCollections=(collections) => {
+  const transformedCollection=collections.docs.map(doc => {
+    const {title, items}=doc.data()
+
+    return{
+      routeName: encodeURI(title.toLowerCase()),
+      id:doc.id,
+      title,
+      items
+    }
+  })
+
+  return transformedCollection.reduce((accumulator, collection) => {
+    accumulator[collection.title.toLowerCase()]=collection;
+    return accumulator;
+  },{})
+}
 
     export default firebase;

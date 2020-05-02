@@ -37,7 +37,7 @@ class App extends React.Component {
       if(user)
       {
         const userRef=await createuserDocument(user)
-        userRef.onSnapshot((snapshot) => {
+        userRef.get().then((snapshot) => {
           setCurrentuser({
             currentUser:{
               id:snapshot.id,

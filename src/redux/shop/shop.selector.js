@@ -17,7 +17,7 @@ const ShopSections=createSelector(
 
 export const SelectCategory=(categoryId) => createSelector(
     [ShopSections],
-    collections => collections.find(collection => collection.id===COLLECTION_MAP[categoryId])
+    collections => collections ? collections.find(collection => collection.id===COLLECTION_MAP[categoryId]) : []
 )
 
 export default ShopSections
